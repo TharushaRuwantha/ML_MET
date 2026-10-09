@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Predict - Sri Lanka Drought Watch</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -31,25 +35,29 @@
       <form id="predict-form">
         <div class="form-grid">
           <div class="form-field full">
-            <label for="station-select" data-content="predict.label.station">Meteorological Station</label>
+            <label for="station-select"><span>📍</span><span data-content="predict.label.station">Meteorological Station</span></label>
             <select id="station-select" required>
               <option value="" disabled selected>Loading stations...</option>
             </select>
           </div>
 
           <div class="form-field">
-            <label for="month-select" data-content="predict.label.month">Target Month</label>
+            <label for="month-select"><span>🗓️</span><span data-content="predict.label.month">Target Month</span></label>
             <select id="month-select" required></select>
           </div>
 
           <div class="form-field">
-            <label for="year-select" data-content="predict.label.year">Target Year</label>
+            <label for="year-select"><span>📆</span><span data-content="predict.label.year">Target Year</span></label>
             <select id="year-select" required></select>
           </div>
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn" id="predict-btn" data-content="predict.button">Get Prediction</button>
+          <button type="submit" class="btn" id="predict-btn">
+            <span class="spinner"></span>
+            <span>🔍</span>
+            <span data-content="predict.button">Get Prediction</span>
+          </button>
         </div>
       </form>
 
@@ -61,7 +69,7 @@
 
       <div class="result-header">
         <div>
-          <div class="station-name" id="result-station">-</div>
+          <div class="station-name"><span>📍</span><span id="result-station">-</span></div>
           <div class="target-month" id="result-month">-</div>
         </div>
         <div id="result-risk-badge" class="risk-badge">-</div>

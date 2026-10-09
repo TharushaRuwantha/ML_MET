@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sri Lanka Drought Watch</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -23,27 +27,34 @@
 
   <main>
     <section class="hero">
+      <span class="hero-icon">🌦️</span>
       <h1 data-content="home.hero.title">Sri Lanka Drought Prediction System</h1>
       <p data-content="home.hero.subtitle">
         Forecasting drought risk across meteorological stations using rainfall and climate data.
       </p>
-      <a class="btn" href="predict.html" data-content="home.hero.button">Make a Prediction</a>
+      <a class="btn" href="predict.html">
+        <span>➜</span>
+        <span data-content="home.hero.button">Make a Prediction</span>
+      </a>
     </section>
 
     <section class="card-grid">
       <div class="card">
+        <div class="card-icon">📍</div>
         <h3 data-content="home.card1.title">Station Based Forecasts</h3>
         <p data-content="home.card1.text">
           Get drought outlooks for individual meteorological stations across Sri Lanka.
         </p>
       </div>
       <div class="card">
+        <div class="card-icon">📅</div>
         <h3 data-content="home.card2.title">Monthly Targeting</h3>
         <p data-content="home.card2.text">
           Choose any future month and station to see the predicted drought conditions.
         </p>
       </div>
       <div class="card">
+        <div class="card-icon">✅</div>
         <h3 data-content="home.card3.title">Easy to Understand</h3>
         <p data-content="home.card3.text">
           Results are shown with clear risk levels and simple explanations, no technical background needed.

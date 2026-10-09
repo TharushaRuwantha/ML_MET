@@ -8,6 +8,16 @@ const MONTH_NAMES = [
   "July", "August", "September", "October", "November", "December",
 ];
 
+// Used only if stations.txt cannot be loaded (e.g. the page was opened by
+// double-clicking the file instead of through a local server), so the
+// dropdown is never left empty. Keep this in sync with stations.txt.
+const FALLBACK_STATIONS = [
+  "ANURADHAPURA", "BADULLA", "BATTICALOA", "COLOMBO", "GALLE",
+  "HAMBANTOTA", "JAFFNA", "KANDY", "KATUNAYAKE", "KURUNEGALA",
+  "MANNAR", "MATALE", "MONARAGALA", "NUWARA ELIYA", "POLONNARUWA",
+  "PUTTALAM", "RATNAPURA", "TRINCOMALEE", "VAVUNIYA",
+];
+
 let siteContent = {};
 let apiUrl = "http://localhost:5001/predict";
 
@@ -108,6 +118,7 @@ async function handleSubmit(event) {
   }
 
   predictBtn.disabled = true;
+  predictBtn.classList.add("loading");
   document.getElementById("result-section").classList.add("hidden");
   showStatus(siteContent["predict.loading"] || "Fetching prediction, please wait...", false);
 
@@ -133,6 +144,7 @@ async function handleSubmit(event) {
     showStatus(siteContent["predict.error"] || "Could not get a prediction. Please try again.", true);
   } finally {
     predictBtn.disabled = false;
+    predictBtn.classList.remove("loading");
   }
 }
 
@@ -154,10 +166,17 @@ async function initPredictPage() {
 
   try {
     const stations = await loadStations();
+    if (!stations.length) throw new Error("stations.txt had no stations in it");
     populateStationSelect(document.getElementById("station-select"), stations);
   } catch (e) {
-    console.error("Could not load stations.txt", e);
-    showStatus("Could not load the station list (stations.txt).", true);
+    console.warn("Could not load stations.txt, using the built-in station list instead.", e);
+    populateStationSelect(document.getElementById("station-select"), FALLBACK_STATIONS);
+    if (window.location.protocol === "file:") {
+      showStatus(
+        "Tip: you opened this file directly, so stations.txt could not be read. Showing the built-in station list instead. Run start_website (see README) to load stations.txt and your edited text.",
+        false
+      );
+    }
   }
 
   document.getElementById("predict-form").addEventListener("submit", handleSubmit);

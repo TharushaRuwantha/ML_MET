@@ -14,14 +14,14 @@ Open any of these with Notepad (or any text editor), change the text after the `
 
 ## How to run the website
 
-Browsers block a page from reading `.txt` files directly when you just double-click `index.html`. Instead, run a tiny local web server from this folder:
+The easiest way: double-click one of these files in this folder, and it will start the website and open it in your browser automatically.
 
-```
-cd web
-python -m http.server 8080
-```
+- **Windows:** `Start Website (Windows).bat`
+- **Mac / Linux:** `start_website.sh`
 
-Then open `http://localhost:8080` in your browser.
+(These need Python installed, which is already required for the prediction server.)
+
+If you just double-click `index.html` instead, the site still works and the station dropdown is still filled in, but your edits to `content.txt` / `stations.txt` will **not** show up — browsers block a page from reading `.txt` files directly when it isn't opened through a web server. Use the start scripts above (or run `python -m http.server 8080` from this folder and open `http://localhost:8080`) whenever you want your text/station edits to appear.
 
 ## Prediction server
 
