@@ -1,0 +1,25 @@
+# ===================================================================
+# LIST OF METEOROLOGICAL STATIONS
+# One station name per line. This fills the "Station" dropdown on the
+# Predict page. Add or remove lines to change the list.
+# Lines starting with # are ignored.
+# ===================================================================
+ANURADHAPURA
+BADULLA
+BATTICALOA
+COLOMBO
+GALLE
+HAMBANTOTA
+JAFFNA
+KANDY
+KATUNAYAKE
+KURUNEGALA
+MANNAR
+MATALE
+MONARAGALA
+NUWARA ELIYA
+POLONNARUWA
+PUTTALAM
+RATNAPURA
+TRINCOMALEE
+VAVUNIYA

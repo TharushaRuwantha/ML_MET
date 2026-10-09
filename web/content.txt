@@ -1,0 +1,50 @@
+# ===================================================================
+# SITE CONTENT FILE
+# Edit the text after the "=" sign on each line to change what shows
+# on the website. Do NOT delete or rename anything before the "=".
+# Lines starting with # are just notes and are ignored.
+# ===================================================================
+
+site.name=Sri Lanka Drought Watch
+site.footer=Sri Lanka Drought Prediction System - Department of Meteorology
+
+# ---------- Navigation menu ----------
+nav.home=Home
+nav.predict=Predict Drought
+nav.about=About
+
+# ---------- Home page ----------
+home.hero.title=Sri Lanka Drought Prediction System
+home.hero.subtitle=Forecasting drought risk across meteorological stations using rainfall and climate data.
+home.hero.button=Make a Prediction
+
+home.card1.title=Station Based Forecasts
+home.card1.text=Get drought outlooks for individual meteorological stations across Sri Lanka.
+
+home.card2.title=Monthly Targeting
+home.card2.text=Choose any future month and station to see the predicted drought conditions.
+
+home.card3.title=Easy to Understand
+home.card3.text=Results are shown with clear risk levels and simple explanations, no technical background needed.
+
+# ---------- Predict page ----------
+predict.title=Drought Prediction
+predict.subtitle=Select a meteorological station and a target month to get a drought forecast.
+predict.label.station=Meteorological Station
+predict.label.month=Target Month
+predict.label.year=Target Year
+predict.button=Get Prediction
+predict.loading=Fetching prediction, please wait...
+predict.error=Could not get a prediction. Please make sure the prediction server is running, then try again.
+predict.result.title=Prediction Result
+predict.result.station=Station
+predict.result.month=Target Month
+predict.result.probability=Drought Probability
+predict.result.spi=Predicted SPI-3 Mean
+predict.result.risk=Risk Classification
+
+# ---------- About page ----------
+about.title=About This Project
+about.body=This website provides drought forecasts for meteorological stations in Sri Lanka. The prediction is produced by a machine learning model that looks at the Standardised Precipitation Index (SPI) and other climate signals to estimate how likely a drought is for a selected station and month.
+about.body2=SPI-3 is a 3 month Standardised Precipitation Index. Values near zero are normal, negative values indicate drier than normal conditions, and very negative values indicate drought.
+about.body3=This tool is meant to support planning and awareness. It is not a substitute for official warnings issued by the Department of Meteorology.

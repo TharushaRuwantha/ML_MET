@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predict - Sri Lanka Drought Watch</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-icon">🌦️</span>
+        <span data-content="site.name">Sri Lanka Drought Watch</span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" data-content="nav.home">Home</a>
+        <a href="predict.html" data-content="nav.predict">Predict Drought</a>
+        <a href="about.html" data-content="nav.about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title" data-content="predict.title">Drought Prediction</h1>
+    <p class="page-subtitle" data-content="predict.subtitle">
+      Select a meteorological station and a target month to get a drought forecast.
+    </p>
+
+    <section class="predict-panel">
+      <form id="predict-form">
+        <div class="form-grid">
+          <div class="form-field full">
+            <label for="station-select" data-content="predict.label.station">Meteorological Station</label>
+            <select id="station-select" required>
+              <option value="" disabled selected>Loading stations...</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="month-select" data-content="predict.label.month">Target Month</label>
+            <select id="month-select" required></select>
+          </div>
+
+          <div class="form-field">
+            <label for="year-select" data-content="predict.label.year">Target Year</label>
+            <select id="year-select" required></select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn" id="predict-btn" data-content="predict.button">Get Prediction</button>
+        </div>
+      </form>
+
+      <p id="status-msg" class="status-msg hidden"></p>
+    </section>
+
+    <section id="result-section" class="result-card hidden">
+      <h2 data-content="predict.result.title">Prediction Result</h2>
+
+      <div class="result-header">
+        <div>
+          <div class="station-name" id="result-station">-</div>
+          <div class="target-month" id="result-month">-</div>
+        </div>
+        <div id="result-risk-badge" class="risk-badge">-</div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-label">
+          <span data-content="predict.result.probability">Drought Probability</span>
+          <span class="metric-value" id="result-probability">-</span>
+        </div>
+        <div class="probability-bar">
+          <div class="probability-bar-fill" id="result-probability-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-label">
+          <span data-content="predict.result.spi">Predicted SPI-3 Mean</span>
+        </div>
+        <div class="spi-value" id="result-spi">-</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span data-content="site.footer">Sri Lanka Drought Prediction System</span>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="predict.js"></script>
+</body>
+</html>
