@@ -2,27 +2,37 @@
 
 A simple 3-page website: **Home**, **Predict Drought**, **About**.
 
-## How to change the text on the site
-
-You do **not** need to touch any `.html` file.
-
-- `content.txt` — all the text shown on every page (titles, buttons, messages).
-- `stations.txt` — the list of meteorological stations shown in the dropdown (one per line).
-- `config.txt` — the web address of the prediction server, and how many years ahead to show in the Year dropdown.
-
-Open any of these with Notepad (or any text editor), change the text after the `=` sign, save the file, and refresh the website in your browser. Lines starting with `#` are just notes and are ignored.
+All site text, the list of meteorological stations, the forecast date
+range, and the prediction server address are defined directly in the
+site's HTML/JavaScript files (`predict.js`, `script.js`), so the site
+works the same way whether it's opened directly or served, with no setup
+files to edit.
 
 ## How to run the website
 
-The easiest way: double-click one of these files in this folder, and it will start the website and open it in your browser automatically.
+The easiest way: double-click one of these files in this folder, and it
+will start the website and open it in your browser automatically.
 
 - **Windows:** `Start Website (Windows).bat`
 - **Mac / Linux:** `start_website.sh`
 
-(These need Python installed, which is already required for the prediction server.)
+(These need Python installed, which is already required for the
+prediction server.)
 
-If you just double-click `index.html` instead, the site still works and the station dropdown is still filled in, but your edits to `content.txt` / `stations.txt` will **not** show up — browsers block a page from reading `.txt` files directly when it isn't opened through a web server. Use the start scripts above (or run `python -m http.server 8080` from this folder and open `http://localhost:8080`) whenever you want your text/station edits to appear.
+You can also open `index.html` directly in a browser - the site works
+either way.
 
 ## Prediction server
 
-The "Predict Drought" page sends a request to the address set in `config.txt` (`api.url`, default `http://localhost:5001/predict`). Make sure that server is running before using the Predict page.
+The "Predict Drought" page sends a request to the prediction server
+address set in `predict.js` (`API_URL`, default
+`http://localhost:5001/predict`). Make sure that server is running
+before using the Predict page.
+
+## Changing the station list or forecast window
+
+The station list and the forecast date range (currently January 2024
+through March 2026) are defined as constants near the top of
+`predict.js` (`STATIONS`, `FORECAST_START_YEAR`, `FORECAST_END_YEAR`,
+`FORECAST_END_MONTH`). Edit those values and refresh the page to change
+them.
