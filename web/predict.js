@@ -1,41 +1,28 @@
 // ---------------------------------------------------------------------
 // Predict page logic: fills the station/month/year dropdowns, calls the
-// local prediction API, and renders the result in a friendly way.
+// prediction API, and renders the result in a friendly way.
+// Everything the page needs is hardcoded below - no config files.
 // ---------------------------------------------------------------------
+
+// Prediction server endpoint.
+const API_URL = "http://localhost:5001/predict";
+
+// Meteorological stations available for prediction.
+const STATIONS = ["ANURADHAPURA", "BATTICALOA", "HAMBANTOTA", "POLONNARUWA", "VAVUNIYA"];
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
 ];
 
-// Used only if stations.txt cannot be loaded (e.g. the page was opened by
-// double-clicking the file instead of through a local server), so the
-// dropdown is never left empty. Keep this in sync with stations.txt.
-const FALLBACK_STATIONS = [
-  "ANURADHAPURA", "BADULLA", "BATTICALOA", "COLOMBO", "GALLE",
-  "HAMBANTOTA", "JAFFNA", "KANDY", "KATUNAYAKE", "KURUNEGALA",
-  "MANNAR", "MATALE", "MONARAGALA", "NUWARA ELIYA", "POLONNARUWA",
-  "PUTTALAM", "RATNAPURA", "TRINCOMALEE", "VAVUNIYA",
-];
+// Forecast window: January 2024 through March 2026 (fixed).
+const FORECAST_START_YEAR = 2024;
+const FORECAST_END_YEAR = 2026;
+const FORECAST_END_MONTH = 3;
 
-let siteContent = {};
-let apiUrl = "http://localhost:5001/predict";
-
-function populateMonthSelect(selectEl) {
+function populateYearSelect(selectEl) {
   selectEl.innerHTML = "";
-  MONTH_NAMES.forEach((name, index) => {
-    const option = document.createElement("option");
-    option.value = String(index + 1).padStart(2, "0");
-    option.textContent = name;
-    selectEl.appendChild(option);
-  });
-}
-
-function populateYearSelect(selectEl, yearsAhead) {
-  selectEl.innerHTML = "";
-  const currentYear = new Date().getFullYear();
-  for (let i = 0; i <= yearsAhead; i++) {
-    const year = currentYear + i;
+  for (let year = FORECAST_START_YEAR; year <= FORECAST_END_YEAR; year++) {
     const option = document.createElement("option");
     option.value = String(year);
     option.textContent = String(year);
@@ -43,9 +30,24 @@ function populateYearSelect(selectEl, yearsAhead) {
   }
 }
 
-function populateStationSelect(selectEl, stations) {
+function populateMonthSelect(selectEl, year) {
+  const previousValue = selectEl.value;
   selectEl.innerHTML = "";
-  stations.forEach((station) => {
+  const lastMonth = year === FORECAST_END_YEAR ? FORECAST_END_MONTH : 12;
+  for (let month = 1; month <= lastMonth; month++) {
+    const option = document.createElement("option");
+    option.value = String(month).padStart(2, "0");
+    option.textContent = MONTH_NAMES[month - 1];
+    selectEl.appendChild(option);
+  }
+  if (Array.from(selectEl.options).some((opt) => opt.value === previousValue)) {
+    selectEl.value = previousValue;
+  }
+}
+
+function populateStationSelect(selectEl) {
+  selectEl.innerHTML = "";
+  STATIONS.forEach((station) => {
     const option = document.createElement("option");
     option.value = station;
     option.textContent = station;
@@ -113,17 +115,17 @@ async function handleSubmit(event) {
   const targetMonth = `${yearSelect.value}-${monthSelect.value}`;
 
   if (!stationName) {
-    showStatus(siteContent["predict.error"] || "Please select a station.", true);
+    showStatus("Please select a station.", true);
     return;
   }
 
   predictBtn.disabled = true;
   predictBtn.classList.add("loading");
   document.getElementById("result-section").classList.add("hidden");
-  showStatus(siteContent["predict.loading"] || "Fetching prediction, please wait...", false);
+  showStatus("Fetching prediction, please wait...", false);
 
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -141,43 +143,25 @@ async function handleSubmit(event) {
     renderResult(data);
   } catch (err) {
     console.error(err);
-    showStatus(siteContent["predict.error"] || "Could not get a prediction. Please try again.", true);
+    showStatus("Could not get a prediction. Please make sure the prediction server is running, then try again.", true);
   } finally {
     predictBtn.disabled = false;
     predictBtn.classList.remove("loading");
   }
 }
 
-async function initPredictPage() {
-  try {
-    siteContent = await loadSiteContent();
-  } catch (e) {
-    console.warn("Could not load content.txt", e);
-  }
+function initPredictPage() {
+  const stationSelect = document.getElementById("station-select");
+  const monthSelect = document.getElementById("month-select");
+  const yearSelect = document.getElementById("year-select");
 
-  const config = await loadConfig();
-  if (config["api.url"]) {
-    apiUrl = config["api.url"];
-  }
-  const yearsAhead = parseInt(config["predict.yearsAhead"], 10);
+  populateStationSelect(stationSelect);
+  populateYearSelect(yearSelect);
+  populateMonthSelect(monthSelect, Number(yearSelect.value));
 
-  populateMonthSelect(document.getElementById("month-select"));
-  populateYearSelect(document.getElementById("year-select"), isNaN(yearsAhead) ? 3 : yearsAhead);
-
-  try {
-    const stations = await loadStations();
-    if (!stations.length) throw new Error("stations.txt had no stations in it");
-    populateStationSelect(document.getElementById("station-select"), stations);
-  } catch (e) {
-    console.warn("Could not load stations.txt, using the built-in station list instead.", e);
-    populateStationSelect(document.getElementById("station-select"), FALLBACK_STATIONS);
-    if (window.location.protocol === "file:") {
-      showStatus(
-        "Tip: you opened this file directly, so stations.txt could not be read. Showing the built-in station list instead. Run start_website (see README) to load stations.txt and your edited text.",
-        false
-      );
-    }
-  }
+  yearSelect.addEventListener("change", () => {
+    populateMonthSelect(monthSelect, Number(yearSelect.value));
+  });
 
   document.getElementById("predict-form").addEventListener("submit", handleSubmit);
 }
