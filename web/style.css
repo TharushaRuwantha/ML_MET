@@ -473,16 +473,6 @@ main {
   transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.spi-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-primary-dark);
-  text-align: center;
-  background: var(--color-bg);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-}
-
 /* ---------- About page ---------- */
 .about-panel {
   background: var(--color-surface);
