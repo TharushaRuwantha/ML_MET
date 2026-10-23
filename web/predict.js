@@ -82,7 +82,6 @@ function renderResult(data) {
 
   const metrics = data.forecast_metrics || {};
   const probability = typeof metrics.drought_probability === "number" ? metrics.drought_probability : 0;
-  const spiMean = typeof metrics.predicted_spi3_mean === "number" ? metrics.predicted_spi3_mean : 0;
   const riskClassification = metrics.risk_classification || "Unknown";
 
   document.getElementById("result-station").textContent = data.station_name || "-";
@@ -95,8 +94,6 @@ function renderResult(data) {
   const probabilityPercent = Math.round(probability * 1000) / 10;
   document.getElementById("result-probability").textContent = probabilityPercent + "%";
   document.getElementById("result-probability-bar").style.width = Math.min(100, Math.max(0, probabilityPercent)) + "%";
-
-  document.getElementById("result-spi").textContent = spiMean.toFixed(2);
 
   resultSection.classList.remove("hidden");
   resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
